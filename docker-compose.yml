@@ -6,8 +6,8 @@ services:
   web:
     build: ./django/
     container_name: django
-    entrypoint: ["./wait.sh"]
-    #command: python manage.py runserver 0.0.0.0:8000
+    #entrypoint: ["./wait.sh"]
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
@@ -102,7 +102,9 @@ services:
     build: ./logstash/
     container_name: logstash
     volumes:
-      - ./logstash/config/:/usr/share/logstash/config/logstash
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,z
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,z
+      #- ./logstash/config/:/usr/share/logstash/config/logstash
       #- ./logstash/pipeline/:/usr/share/logstash/pipeline/
       - ./drivers/:/opt/logstash/vendor/jar/jdbc/
     environment:
